@@ -3,9 +3,10 @@
    display:flex;
    align-items: center;
    justify-content: space-between;
+   width: 100%;
    padding: 7px 7%;
    padding-right: 5%;
-   background: rgb(15, 15, 15);
+   background: black;
    box-shadow: 0 3px 12px rgb(54,141,223);
    z-index: 999;
    position: sticky;
@@ -44,6 +45,7 @@
    display: flex;
    justify-content: center;
    align-items: center;
+   margin: 0;
 }
 
 /* эллементы списка */
@@ -85,7 +87,7 @@
    position: absolute;
    left: 0;
    top: 100%;
-   background-color: rgb(15, 15, 15);
+   background-color: black;
 }
 
 .dropdown_menu ul{

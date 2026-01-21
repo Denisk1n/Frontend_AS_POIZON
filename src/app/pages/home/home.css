@@ -1,0 +1,52 @@
+.intro{
+  background-size: 100%;
+  background-repeat: no-repeat;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 80%);
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 50px;  
+}
+
+.intro_sneaker{
+   padding-top: 50px;
+}
+
+.intro_text{
+   background-image: none;
+   h4{
+      padding-bottom: 25px;
+   }
+   h2{
+      font-size: 46px;
+      line-height: 54px;
+      margin: 0px;
+   }
+   h1{
+      font-size: 50px;
+   }
+}
+
+.to_shopping_cart{
+   background-color: transparent;
+   color: #568570;
+   border: 0;
+   padding: 12px 45px 14px 46px;
+
+   cursor: pointer;
+   font-weight: 500;
+   font-size: 15px;
+}
+
+.to_shopping_cart:hover{
+   color: #12c876;
+}
+
+
+.features{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   padding: 50px;
+}

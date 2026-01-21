@@ -12,5 +12,9 @@
 
 body{
    width: 100%;
-   background: #d8e4ee;
+   background: white;
+}
+
+h1, h2, h3, h4, p{
+   color: whitesmoke;
 }

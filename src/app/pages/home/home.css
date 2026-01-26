@@ -13,8 +13,10 @@
    padding-top: 50px;
 }
 
+
 .intro_text{
    background-image: none;
+   color: whitesmoke;
    h4{
       padding-bottom: 25px;
    }
@@ -48,5 +50,31 @@
    display: flex;
    align-items: center;
    justify-content: center;
-   padding: 50px;
+   padding: 20px 50px; 
 }
+
+
+.new_sneakers{
+   padding: 50px 0;
+   text-align: center;
+}
+
+#new_collection{
+   padding-bottom: 30px;
+}
+
+.for_all_models{
+   margin-top: 50px;
+   width: 45%;
+   padding: 7px;
+   border: 1px dashed rgba(0, 0, 0, 0.418);
+   border-radius: 50px;
+   font-weight: 600;
+   color:rgba(0, 0, 0, 0.418)
+}
+
+.for_all_models:hover{
+   border: 1px dashed black;
+   color: black;
+}
+

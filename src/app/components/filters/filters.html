@@ -1,0 +1,156 @@
+<div class="size-selector">
+  <!-- Заголовок аккордеона -->
+  <div class="accordion-header" (click)="toggleAccordionSizes()" (click)="updateDisplayValuesSizes()">
+    <h3 class="accordion-title">
+      Размер обуви
+    </h3>
+    <span class="accordion-icon">
+      {{ isAccordionOpenSizes ? '−' : '+' }}
+    </span>
+  </div>
+
+  <!-- Контент аккордеона -->
+  <div class="accordion-content" [class.open]="isAccordionOpenSizes">
+    <!-- Чекбоксы с размерами -->
+    <div class="sizes-container">
+      <div class="sizes-grid" [class.show-all]="showAllSizes">
+        <label class="size-option" *ngFor="let size of visibleSizes">
+          <input type="checkbox" 
+                 [value]="size"
+                 [checked]="selectedSizes.has(size)"
+                 (change)="toggleSize(size, $event)">
+          <span class="size-checkbox"></span>
+          <span class="size-label">{{ size }}</span>
+        </label>
+      </div>
+      
+      <!-- Кнопка "Показать больше" -->
+      <button class="show-more-btn" 
+              *ngIf="shouldShowMoreButtonSizes()" 
+              (click)="toggleAllSizes()">
+        {{ showAllSizes ? 'Скрыть ▲' : 'Показать больше +' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="size-selector">
+  <!-- Заголовок аккордеона -->
+  <div class="accordion-header" (click)="toggleAccordionBrands()" (click)="updateDisplayValuesBrands()">
+    <h3 class="accordion-title">
+      Бренды
+    </h3>
+    <span class="accordion-icon">
+      {{ isAccordionOpenBrands ? '−' : '+' }}
+    </span>
+  </div>
+
+  <!-- Контент аккордеона -->
+  <div class="accordion-content" [class.open]="isAccordionOpenBrands">
+    <!-- Чекбоксы с размерами -->
+    <div class="sizes-container">
+      <div class="sizes-grid" [class.show-all]="showAllBrands">
+        <label class="size-option" *ngFor="let brand of visibleBrands">
+          <input type="checkbox" 
+                 [value]="brand"
+                 [checked]="selectedBrands.has(brand)"
+                 (change)="toggleBrand(brand, $event)">
+          <span class="size-checkbox"></span>
+          <span class="size-label">{{ brand }}</span>
+        </label>
+      </div>
+      
+      <!-- Кнопка "Показать больше" -->
+      <button class="show-more-btn" 
+              *ngIf="shouldShowMoreButtonBrands()" 
+              (click)="toggleAllBrands()">
+        {{ showAllBrands ? 'Скрыть ▲' : 'Показать больше +' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<div class="size-selector">
+  <!-- Заголовок аккордеона -->
+  <div class="accordion-header" (click)="toggleAccordionStatuses()" (click)="updateDisplayValuesStatuse()">
+    <h3 class="accordion-title">
+      Наличие
+    </h3>
+    <span class="accordion-icon">
+      {{ isAccordionOpenStatuses ? '−' : '+' }}
+    </span>
+  </div>
+
+  <!-- Контент аккордеона -->
+  <div class="accordion-content" [class.open]="isAccordionOpenStatuses">
+    <!-- Чекбоксы с размерами -->
+    <div class="sizes-container">
+      <div class="sizes-grid" [class.show-all]="showAllStatuses">
+        <label class="size-option" *ngFor="let statuse of visibleStatuses">
+          <input type="checkbox" 
+                 [value]="statuse"
+                 [checked]="selectedStatuses.has(statuse)"
+                 (change)="toggleStatuse(statuse, $event)">
+          <span class="size-checkbox"></span>
+          <span class="size-label">{{ statuse }}</span>
+        </label>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
+<div class="size-selector">
+
+  <!-- Заголовок -->
+  <div class="accordion-header" (click)="toggleAccordionPrice()">
+    <h3 class="accordion-title">
+      Цена
+    </h3>
+    <span class="accordion-icon">
+      {{ isAccordionOpenPrice ? '−' : '+' }}
+    </span>
+  </div>
+  
+  <div  class="accordion-content" [class.open]="isAccordionOpenPrice">
+      <!-- Двойной ползунок -->
+      <div class="range-slider">
+         <div class="slider-track">
+            <div class="slider-range" [style.left]="minPercent + '%'" 
+               [style.width]="(maxPercent - minPercent) + '%'"></div>
+         </div>
+         <input type="range" class="slider-thumb min-thumb"
+               [min]="minPrice" [max]="maxPrice" [value]="allFilters.getPrice().min"
+               (input)="updateMinSlider($event)">
+         <input type="range" class="slider-thumb max-thumb"
+               [min]="minPrice" [max]="maxPrice" [value]="allFilters.getPrice().max"
+               (input)="updateMaxSlider($event)">
+      </div>
+      
+      <!-- Поля для ввода -->
+      <div class="price-inputs">
+         <input type="number" class="price-field" [value]="allFilters.getPrice().min"
+               [min] = "minPrice"
+               (input)="updateMinPrice($event)">
+         <span class="separator">-</span>
+         <input type="number" class="price-field" [value]="allFilters.getPrice().max"
+               [max]="maxPrice"
+               (input)="updateMaxPrice($event)">
+      </div>
+      
+   </div>
+
+ 
+</div>
+
+
+<div class="applay-filters">
+
+   <button class="apply-filters-button" (click)="getAllFilters()">
+      Применить фильтры
+   </button>
+
+</div>

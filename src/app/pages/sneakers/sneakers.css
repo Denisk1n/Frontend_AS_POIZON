@@ -1,0 +1,39 @@
+
+.sneaker_page{
+   margin: 3% 7%;
+}
+
+.filters{
+
+   width: 250px;
+}
+
+.path{
+   margin-bottom: 4%;
+}
+
+.small-path{
+   margin-top: 2%;
+}
+
+.small-path a{
+   color: #BBBBBB;
+   font-size: 16px;  
+   font-weight: 400;
+   text-decoration: none;
+}
+.small-path{
+   font-weight: 500;
+}
+
+.main{
+   display: grid;
+   grid-template-columns: 225px 1fr; /* Две равные колонки */
+}
+
+.drop_down_menu{
+   display: flex;
+   justify-content: end;
+   padding-bottom: 30px;
+}
+

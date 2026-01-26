@@ -1,0 +1,18 @@
+
+
+
+<div class="product_card">
+
+   <a href="">
+
+      <img [src]="img">
+      <div class="card_info">
+         <span id="card_brand"> {{ brand }} </span>
+         <h5 id="card_title"> {{title}}</h5>
+         <h4 id="card_price"> {{price}} ₽</h4>
+         <span class="available" [ngStyle]="{'color': available == 'В наличии' ? 'green' : 'red'}" > {{ available}} </span>
+      </div>
+      
+   </a>
+
+</div>

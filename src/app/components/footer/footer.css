@@ -1,3 +1,75 @@
-p{
-   padding-top: 100px;
+.footer{
+   background: black;
+   color: white;
+   padding-top: 40px;
+}
+
+.upper_part{
+   display: flex;
+   justify-content: left;
+}
+
+.social_logos{
+   margin-left: 5%; 
+}
+
+.footer_main_logo{
+   margin-bottom: 20px;
+}
+
+.social_logos p{
+   font-size: 14px;
+   color: #BBBBBB;
+}
+
+.net_icon{
+   text-decoration: none;
+   margin: 4px;
+}
+
+.footer_help{
+   margin-left: 10%;
+}
+
+.help_list{
+   margin: 0;
+   padding: 0;
+}
+
+.help_text{
+   margin: 20px 0px;
+   list-style: none;
+}
+
+
+.help_text a{
+   text-decoration: none;
+   font-size: 14px;
+   color: #BBBBBB;
+}
+
+
+.down_part{
+  margin-top: 20px;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.down_list{
+   display: flex;
+   align-items: center;
+   justify-content: left;
+   margin: 0;
+   padding: 0;
+}
+
+.down_list li{
+   list-style: none;
+   margin-right: 2%;
+}
+
+.down_list li,  a{
+   text-decoration: none;
+   font-size: 14px;
+   color: #BBBBBB;
 }

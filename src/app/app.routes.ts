@@ -11,5 +11,6 @@ export const routes: Routes = [
    {path: 'sneakers', component: Sneakers},
    {path: 'clothes', component: Clothes},
    {path: 'admin-panel', component: AdminPanel},
-   {path: 'sneaker-info', component: SneakerInfo}
+   {path: 'sneaker-info/:id', component: SneakerInfo},
+   {path: 'sneakers/sneaker-info/:id', component: SneakerInfo}
 ];

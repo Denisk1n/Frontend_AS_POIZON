@@ -1,1 +1,28 @@
-<p>sneaker-info works!</p>
+<button (click)="loadProduct()"> Получить данные </button>
+
+<div *ngIf="product">
+      <h2>{{ product.title }}</h2>
+      <p>Бренд: {{ product.brand }}</p>
+      <p>Категория: {{ product.category }}</p>
+      <p>Цена: {{ product.price }}</p>
+      <img [src]="product.main_image" [alt]="product.title">
+      
+      <div *ngIf="product.images && product.images.length">
+        <h3>Дополнительные изображения:</h3>
+        <div *ngFor="let img of product.images">
+          <img [src]="img.image" [alt]="'Изображение ' + img.position">
+        </div>
+      </div>
+      
+      <div *ngIf="product.sizes && product.sizes.length">
+        <h3>Доступные размеры:</h3>
+        <div *ngFor="let size of product.sizes">
+          {{ size.ru }}
+          {{ size.us }}
+          {{ size.sm }}
+
+        </div>
+      </div>
+    </div>
+    <div *ngIf="loading">Загрузка...</div>
+    <div *ngIf="error">{{ error }}</div>

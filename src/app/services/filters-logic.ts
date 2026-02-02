@@ -75,7 +75,7 @@ export class FiltersLogic {
   }
 
 
-  getAllFilters(): FiltersList{
+  getFilters(): FiltersList{
     return this.AllFilters;
   }
 

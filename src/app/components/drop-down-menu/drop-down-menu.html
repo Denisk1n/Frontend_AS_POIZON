@@ -1,25 +1,27 @@
 
-         <div class="sort-dropdown">
-            <!-- Кнопка для открытия меню -->
-            <button class="dropdown-toggle" (click)="toggleDropdown()" 
-                     [class.active]="isOpen">
-               <span class="selected-option">
-                  {{ getSelectedLabel() }}
-               </span>
-            </button>
+   <div class="sort-dropdown">
+      <!-- Кнопка для открытия меню -->
+      <button class="dropdown-toggle" (click)="toggleDropdown()" 
+               [class.active]="isOpen">
+         <span class="selected-option">
+            {{ getSelectedLabel() }}
+         </span>
+      </button>
 
-            <!-- Выпадающее меню -->
-            <div class="dropdown-menu" [class.show]="isOpen" 
-                  (click)="$event.stopPropagation()">
-               <div class="menu-content">
-                  <!-- Опции сортировки -->
-                  <div class="menu-option" 
-                     *ngFor="let option of sortOptions" 
-                     (click)="selectOption(option.value)"
-                     [class.selected]="allFilters.getSorted() === option.value">
-                  <span class="option-text">{{ option.label }}</span>
-                  <span class="check-icon" *ngIf="allFilters.getSorted() === option.value">✓</span>
-                  </div>
-               </div>
+      <!-- Выпадающее меню -->
+      <div class="dropdown-menu" [class.show]="isOpen" 
+            (click)="$event.stopPropagation()"
+            >
+         <div class="menu-content">
+            <!-- Опции сортировки -->
+            <div class="menu-option" 
+               *ngFor="let option of sortOptions" 
+               (click)="onGetFilters()"
+               (click)="selectOption(option.value)"
+               [class.selected]="allFilters.getSorted() === option.value">
+            <span class="option-text">{{ option.label }}</span>
+            <span class="check-icon" *ngIf="allFilters.getSorted() === option.value">✓</span>
             </div>
          </div>
+      </div>
+   </div>

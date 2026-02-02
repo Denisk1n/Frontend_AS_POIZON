@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, HostListener } from '@angular/core';
+import { Component, EventEmitter, Output, HostListener, Input } from '@angular/core';
 import { FiltersLogic } from '../../services/filters-logic';
+
 
 interface SortOption {
   value: string;
@@ -16,6 +17,12 @@ interface SortOption {
 
 export class DropDownMenu {
 
+  @Output() getFilters = new EventEmitter<void>;
+
+  onGetFilters(){
+    this.getFilters.emit();
+  }
+
   // Опции сортировки (4 пункта)
   sortOptions: SortOption[] = [
     { value: 'default', label: 'По умолчанию' },
@@ -26,7 +33,6 @@ export class DropDownMenu {
 
   constructor(public allFilters: FiltersLogic) {}
 
-  
   // Открыто ли меню
   isOpen = false;
   
@@ -56,7 +62,9 @@ export class DropDownMenu {
     this.allFilters.setSorted(value);
     this.isOpen = false;
     this.sortChanged.emit(value);
-    console.log('Выбрана сортировка:', value);
+    
+    // console.log('Выбрана сортировка:', value);
+    
   }
 
   // Получить текст выбранной опции

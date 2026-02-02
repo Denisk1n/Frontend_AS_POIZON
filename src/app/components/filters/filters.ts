@@ -144,8 +144,6 @@ export class Filters {
     
     console.log('Выбранные бренды:', Array.from(this.allFilters.getBrands()));
   }
-  
-
 
 
   // ВСЕ ДЛЯ СТАТУСА В НАЛИЧИИ
@@ -190,14 +188,10 @@ export class Filters {
   
 
 
-
-
   minPrice: number = 0;
   maxPrice: number = 100000;
   
   @Output() priceChanged = new EventEmitter<{min: number, max: number}>();
-  
-
   
 
   isAccordionOpenPrice = false;
@@ -276,10 +270,8 @@ export class Filters {
   }
 
   getAllFilters(){
-
     //http запрос
-
-    console.log('Все выбранные фильтры', this.allFilters.getAllFilters())
+    console.log('Все выбранные фильтры', this.allFilters.getFilters())
   }
 
 }

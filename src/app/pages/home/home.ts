@@ -4,6 +4,7 @@ import { ProductsList } from '../../components/products-list/products-list';
 import { Productcard } from '../../models/product-card.model';
 import { ProductListLogic } from '../../services/product-list-logic';
 
+
 @Component({
   selector: 'app-home',
   imports: [InfoFeatures, ProductsList],

@@ -22,10 +22,10 @@ export class Home {
     private prodListLog: ProductListLogic,
     private cdr: ChangeDetectorRef
     ){
-        this.loadNewProductCards()
+        this.loadProduct()
     }
 
-  loadNewProductCards(): void {
+  loadProduct(): void {
       this.loading = true;
       this.error = '';
       
@@ -34,13 +34,8 @@ export class Home {
           next: (data: Productcard[]) => {
             this.newProductCards = data; // Присваиваем данные из запроса
             this.loading = false;
-
-            // Проверка данных
-            console.log('Полученные данные:', this.newProductCards);
-  
             this.cdr.detectChanges(); // важная тема для обновления данных
           },
-
           error: (err) => {
             this.error = 'Ошибка загрузки данных';
             this.loading = false;

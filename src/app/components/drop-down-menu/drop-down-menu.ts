@@ -17,6 +17,7 @@ interface SortOption {
 
 export class DropDownMenu {
 
+  @Output() filtersApplied = new EventEmitter<void>();
 
   // Опции сортировки (4 пункта)
   sortOptions: SortOption[] = [
@@ -57,8 +58,8 @@ export class DropDownMenu {
     this.allFilters.setSorted(value);
     this.isOpen = false;
     this.sortChanged.emit(value);
-    console.log("фильтры: ",this.allFilters.getFilters()
-    )
+    console.log("фильтры: ",this.allFilters.getFilters());
+    this.filtersApplied.emit();
   }
 
   // Получить текст выбранной опции

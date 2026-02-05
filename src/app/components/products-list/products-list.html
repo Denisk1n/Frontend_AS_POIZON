@@ -1,5 +1,9 @@
+<div *ngIf="!productCards.length" class="no_data"> 
+      Данные не найдены
+   </div>
 
-<section class="products_list" [ngStyle]="{'width': width}"> 
+<section *ngIf="productCards.length" class="products_list" [ngStyle]="{'width': width}"> 
+
 
    <app-product-card  *ngFor="let prod of productCards" 
    [product]="prod"></app-product-card>

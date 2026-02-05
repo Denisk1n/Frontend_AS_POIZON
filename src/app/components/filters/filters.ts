@@ -11,13 +11,16 @@ import { FiltersLogic } from '../../services/filters-logic';
 
 export class Filters {
 
+  @Output() filtersApplied = new EventEmitter<void>();
+
   constructor(public allFilters: FiltersLogic) {}
   
-  
+
+
   // ВСЕ ДЛЯ РАЗМЕРА ОБУВИ
   private _allSizes = [
-    '27', '28', '29', '30', '31', '32', '32.5',
-    '33', '34', '34.5', '35', '36', '37', '38'
+    27, 28, 29, 30, 31, 32, 32.5,
+    33, 34, 34.5, 35, 36, 37, 38
   ];
 
   public get allSizes() {
@@ -31,7 +34,7 @@ export class Filters {
   // Состояния
   isAccordionOpenSizes = false;
   showAllSizes = false;
-  selectedSizes: string[] = [];
+  selectedSizes: number[] = [];
 
   updateDisplayValuesSizes(): void {
     this.selectedSizes = this.allFilters.getSizes();
@@ -48,7 +51,7 @@ export class Filters {
   
 
   // Получаем видимые размеры в зависимости от состояния
-  get visibleSizes(): string[] {
+  get visibleSizes(): number[] {
     if (this.showAllSizes) {
       return this.allSizes;
     }
@@ -71,7 +74,7 @@ export class Filters {
   }
   
   // Выбрать/отменить размер
-  toggleSize(size: string, event: Event) {
+  toggleSize(size: number, event: Event) {
     const checkbox = event.target as HTMLInputElement;
     
     if (checkbox.checked) {
@@ -271,6 +274,7 @@ export class Filters {
   getAllFilters(){
     //http запрос
     console.log('Все выбранные фильтры', this.allFilters.getFilters())
+    this.filtersApplied.emit();
   }
 
 }

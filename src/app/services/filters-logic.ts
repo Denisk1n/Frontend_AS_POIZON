@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { FiltersList, Price } from '../models/filters-lists.model';
+import { Productcard } from '../models/product-card.model';
 
 @Injectable({
   providedIn: 'root',
@@ -11,29 +14,39 @@ export class FiltersLogic {
     sizes: [],      // Пустой набор размеров
     brands: [],      // Пустой набор брендов
     available: [],     // Пустой набор статусов
-    prices: {
+    price: {
       min: 0,
       max: 100000
     },    // Пустой набор цен
     sorted: 'default'                   // Сортировка по умолчанию
   };
 
-  remove_from_array(list: string[], value: string): void{
+  private APIURL = 'http://127.0.0.1:8000'
+  constructor(private http: HttpClient){}
+
+
+  post_ProductCatdsApplyingFilters(filters: FiltersList): Observable<Productcard[]>{
+    return this.http.post<Productcard[]>(`${this.APIURL}/sneakers_with_filters`, filters);
+  }
+
+
+
+  remove_from_array(list: any[], value: any): void{
     const index = list.indexOf(value);
     if (index > -1){
       list.splice(index, 1);
     }
   }
 
-  addSize(size: string): void{
+  addSize(size: number): void{
     this.AllFilters.sizes.push(size);
   }
 
-  removeSize(size: string): void{
+  removeSize(size: number): void{
     this.remove_from_array(this.AllFilters.sizes, size);
   }
 
-  getSizes(): string[] {
+  getSizes(): number[] {
     return Array.from(this.AllFilters.sizes);
   }
 
@@ -63,12 +76,12 @@ export class FiltersLogic {
 
 
   setPrice(minprice: number, maxprice: number): void{
-    this.AllFilters.prices.min = minprice;
-    this.AllFilters.prices.max = maxprice;
+    this.AllFilters.price.min = minprice;
+    this.AllFilters.price.max = maxprice;
   }
 
   getPrice(): Price{
-    return this.AllFilters.prices;
+    return this.AllFilters.price;
   }
 
 

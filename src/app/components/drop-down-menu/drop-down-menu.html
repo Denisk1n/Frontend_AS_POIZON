@@ -10,13 +10,11 @@
 
       <!-- Выпадающее меню -->
       <div class="dropdown-menu" [class.show]="isOpen" 
-            (click)="$event.stopPropagation()"
-            >
+            (click)="$event.stopPropagation()">
          <div class="menu-content">
             <!-- Опции сортировки -->
             <div class="menu-option" 
                *ngFor="let option of sortOptions" 
-               (click)="onGetFilters()"
                (click)="selectOption(option.value)"
                [class.selected]="allFilters.getSorted() === option.value">
             <span class="option-text">{{ option.label }}</span>

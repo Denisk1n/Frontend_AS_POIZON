@@ -4,9 +4,9 @@ export interface Price{
 }
 
 export interface FiltersList{
-   sizes_list:  Set<string>;
-   brand_list: Set<string>;
-   status_list: Set<string>;
+   sizes:  string[];
+   brands: string[];
+   available: string[];
    prices: Price;
    sorted: string; 
 }

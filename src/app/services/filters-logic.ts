@@ -8,9 +8,9 @@ import { FiltersList, Price } from '../models/filters-lists.model';
 export class FiltersLogic {
   
   private AllFilters: FiltersList = {
-    sizes_list: new Set<string>(),      // Пустой набор размеров
-    brand_list: new Set<string>(),      // Пустой набор брендов
-    status_list: new Set<string>(),     // Пустой набор статусов
+    sizes: [],      // Пустой набор размеров
+    brands: [],      // Пустой набор брендов
+    available: [],     // Пустой набор статусов
     prices: {
       min: 0,
       max: 100000
@@ -18,41 +18,47 @@ export class FiltersLogic {
     sorted: 'default'                   // Сортировка по умолчанию
   };
 
+  remove_from_array(list: string[], value: string): void{
+    const index = list.indexOf(value);
+    if (index > -1){
+      list.splice(index, 1);
+    }
+  }
 
   addSize(size: string): void{
-    this.AllFilters.sizes_list.add(size);
+    this.AllFilters.sizes.push(size);
   }
 
   removeSize(size: string): void{
-    this.AllFilters.sizes_list.delete(size);
+    this.remove_from_array(this.AllFilters.sizes, size);
   }
 
-  getSizes(): Set<string> {
-    return new Set(this.AllFilters.sizes_list);
+  getSizes(): string[] {
+    return Array.from(this.AllFilters.sizes);
   }
 
   addBrand(brand: string): void{
-    this.AllFilters.brand_list.add(brand);
+    this.AllFilters.brands.push(brand);
   }
 
   removeBrand(brand: string): void{
-    this.AllFilters.brand_list.delete(brand);
+    this.remove_from_array(this.AllFilters.brands, brand);
   }
 
-  getBrands(): Set<string>{
-    return new Set(this.AllFilters.brand_list);
+  getBrands(): string[]{
+    return Array.from(this.AllFilters.brands);
   }
 
   addStatuse(statuse: string): void{
-    this.AllFilters.status_list.add(statuse)
+    this.AllFilters.available.push(statuse)
   }
 
   removeStatuse(statuse: string): void{
-    this.AllFilters.status_list.delete(statuse)
+    this.remove_from_array(this.AllFilters.available, statuse)
   }
 
-  getStatuses(): Set<string>{
-    return new Set(this.AllFilters.status_list);
+  getStatuses(): string[]{
+    return Array.from(this.AllFilters.available);
   }
 
 

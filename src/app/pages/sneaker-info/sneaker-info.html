@@ -1,6 +1,6 @@
-<button (click)="loadProduct()"> Получить данные </button>
 
-<div *ngIf="product">
+
+<div *ngIf="!error">
       <h2>{{ product.title }}</h2>
       <p>Бренд: {{ product.brand }}</p>
       <p>Категория: {{ product.category }}</p>

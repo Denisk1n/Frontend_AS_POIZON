@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from "@angular/router";
+import { Productcard } from '../../models/product-card.model';
 
 @Component({
   selector: 'app-product-card',
@@ -12,12 +13,9 @@ import { RouterLink } from "@angular/router";
 
 export class ProductCard {
 
-  @Input() id!: number;
-  @Input() img! : string;
-  @Input() brand! : string;
-  @Input() title! : string;
-  @Input() price! : string;
-  @Input() available! : string;
+  @Input() product!: Productcard;
+
+
   
 
 }

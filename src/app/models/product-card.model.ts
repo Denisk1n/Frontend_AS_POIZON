@@ -1,7 +1,7 @@
 export interface Productcard {
 
    id: number;
-   img: string;
+   main_image: string;
    brand: string;
    title: string;
    price: string;

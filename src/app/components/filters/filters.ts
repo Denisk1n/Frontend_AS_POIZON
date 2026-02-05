@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ɵresetIncrementalHydrationEnabledWarnedForTests } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FiltersLogic } from '../../services/filters-logic';
 
@@ -31,7 +31,7 @@ export class Filters {
   // Состояния
   isAccordionOpenSizes = false;
   showAllSizes = false;
-  selectedSizes = new Set<string>;
+  selectedSizes: string[] = [];
 
   updateDisplayValuesSizes(): void {
     this.selectedSizes = this.allFilters.getSizes();
@@ -80,7 +80,7 @@ export class Filters {
       this.allFilters.removeSize(size);
     }
     
-    console.log('Выбранные размеры:', Array.from(this.allFilters.getSizes()));
+    console.log('Выбранные размеры:', this.allFilters.getSizes());
   }
   
 
@@ -101,7 +101,7 @@ export class Filters {
   ];
 
   // Выбранные размеры
-  selectedBrands = new Set<string>();
+  selectedBrands: string[] = [];
   
   // Состояния
   isAccordionOpenBrands = false;
@@ -142,7 +142,7 @@ export class Filters {
       this.allFilters.removeBrand(brand);
     }
     
-    console.log('Выбранные бренды:', Array.from(this.allFilters.getBrands()));
+    console.log('Выбранные бренды:', this.allFilters.getBrands());
   }
 
 
@@ -153,7 +153,7 @@ export class Filters {
   ];
 
   // Выбранные statuses
-  selectedStatuses = new Set<string>();
+  selectedStatuses: string[] = [];
   
   // Состояния
   isAccordionOpenStatuses = false;
@@ -183,10 +183,9 @@ export class Filters {
       this.allFilters.removeStatuse(statuse);
     }
     
-    console.log('Выбранные статусы:', Array.from(this.allFilters.getStatuses()));
+    console.log('Выбранные статусы:', this.allFilters.getStatuses());
   }
   
-
 
   minPrice: number = 0;
   maxPrice: number = 100000;

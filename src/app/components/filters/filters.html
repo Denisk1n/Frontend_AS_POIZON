@@ -17,7 +17,7 @@
         <label class="size-option" *ngFor="let size of visibleSizes">
           <input type="checkbox" 
                  [value]="size"
-                 [checked]="selectedSizes.has(size)"
+                 [checked]="selectedSizes.includes(size)"
                  (change)="toggleSize(size, $event)">
           <span class="size-checkbox"></span>
           <span class="size-label">{{ size }}</span>
@@ -54,7 +54,7 @@
         <label class="size-option" *ngFor="let brand of visibleBrands">
           <input type="checkbox" 
                  [value]="brand"
-                 [checked]="selectedBrands.has(brand)"
+                 [checked]="selectedBrands.includes(brand)"
                  (change)="toggleBrand(brand, $event)">
           <span class="size-checkbox"></span>
           <span class="size-label">{{ brand }}</span>
@@ -91,7 +91,7 @@
         <label class="size-option" *ngFor="let statuse of visibleStatuses">
           <input type="checkbox" 
                  [value]="statuse"
-                 [checked]="selectedStatuses.has(statuse)"
+                 [checked]="selectedStatuses.includes(statuse)"
                  (change)="toggleStatuse(statuse, $event)">
           <span class="size-checkbox"></span>
           <span class="size-label">{{ statuse }}</span>

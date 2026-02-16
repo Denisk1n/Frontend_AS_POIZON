@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FiltersLogic } from '../../services/filters-logic';
+import { MessageModule } from 'primeng/message';
 
 @Component({
   selector: 'app-filters',
-  imports: [CommonModule],
+  imports: [CommonModule, MessageModule],
   templateUrl: './filters.html',
   styleUrl: './filters.css',
 })

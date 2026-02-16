@@ -1,0 +1,55 @@
+<div class="gallery">
+  <!-- Основное изображение с областью наведения -->
+  <div class="main-image-container">
+    <div class="main-image-wrapper" (click)="onImageClick()">
+      <img 
+        *ngIf="images.length > 0; else noImage"
+        [src]="images[currentIndex]" 
+        [alt]="'Image ' + (currentIndex + 1)"
+        (error)="onImageError($event)"
+      >
+      <ng-template #noImage>
+        <div class="placeholder">Нет изображений</div>
+      </ng-template>
+    </div>
+
+    <!-- Кнопки навигации на всю высоту - появляются при наведении на контейнер -->
+    <div class="nav-overlay" *ngIf="images.length > 1">
+      <button 
+        class="nav-btn prev" 
+        (click)="prev(); $event.stopPropagation()"
+        aria-label="Previous image"
+      >
+        ❮
+      </button>
+      <button 
+        class="nav-btn next" 
+        (click)="next(); $event.stopPropagation()"
+        aria-label="Next image"
+      >
+        ❯
+      </button>
+    </div>
+  </div>
+
+  <!-- Миниатюры -->
+  <div class="thumbnails" *ngIf="images.length > 1">
+    <div 
+      *ngFor="let img of images; let i = index"
+      class="thumbnail"
+      [class.active]="i === currentIndex"
+      (click)="selectImage(i); $event.stopPropagation()"
+    >
+      <img 
+        [src]="img" 
+        [alt]="'Thumbnail ' + (i + 1)"
+        (error)="onThumbnailError($event)"
+      >
+    </div>
+  </div>
+
+  <!-- Счётчик -->
+  <div class="counter" *ngIf="images.length > 0">
+    {{ currentIndex + 1 }} / {{ images.length }}
+  </div>
+</div>

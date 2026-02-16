@@ -1,28 +1,79 @@
 
+   <section class="page" >
 
-<div *ngIf="!error">
-      <h2>{{ product.title }}</h2>
-      <p>Бренд: {{ product.brand }}</p>
-      <p>Категория: {{ product.category }}</p>
-      <p>Цена: {{ product.price }}</p>
-      <img [src]="product.main_image" [alt]="product.title">
-      
-      <div *ngIf="product.images && product.images.length">
-        <h3>Дополнительные изображения:</h3>
-        <div *ngFor="let img of product.images">
-          <img [src]="img.image" [alt]="'Изображение ' + img.position">
-        </div>
+      <div class="path">
+            <div class="small-path">
+               <a href="/"> Главная</a>
+               <span> -> </span>
+               <a href="/sneakers"> Обувь </a>
+               <span> -> </span>
+               <span id="small-path-name"> {{product.title}} </span>
+            </div>   
       </div>
+      <hr>
       
-      <div *ngIf="product.sizes && product.sizes.length">
-        <h3>Доступные размеры:</h3>
-        <div *ngFor="let size of product.sizes">
-          {{ size.ru }}
-          {{ size.us }}
-          {{ size.sm }}
+      <section class="main"> 
+      
+         <app-image-slider [images]="images"> </app-image-slider>
 
-        </div>
-      </div>
-    </div>
-    <div *ngIf="loading">Загрузка...</div>
-    <div *ngIf="error">{{ error }}</div>
+         <div class="pro-details">
+
+            <h2 >{{ product.title }}</h2>
+            
+            <div class="info">
+
+               <div class="info-line">
+                  <div>
+                     <h6> Бренд: </h6> 
+                  </div>
+                  <span> {{ product.brand }} </span>
+               </div>
+
+               <div class="info-line">
+                  <div>
+                     <h6> Категория:   </h6> 
+                  </div>
+                  <span> {{ product.category }} </span>
+               </div>
+
+               <div class="info-line">
+                  <div>
+                     <h6> Наличие: </h6> 
+                  </div>
+                  <span class="available" [ngStyle]="{'color': product.available == 'В наличии' ? 'green' : 'red'}" > {{ product.available}} </span>
+               </div>
+
+            </div>
+
+            <h4> {{ product.price }} ₽ </h4>
+            
+            <select name="" id="" class="sizes" >
+               <option value=""> Выберите размер </option>
+               <option value="" *ngFor="let size of product.sizes"> 
+                                {{ size.ru }} RU
+                                {{ size.us }} US
+                                {{ size.sm }} СМ
+                </option>
+            </select>
+            
+            <button class="add-to-cart"> <i class="fa-solid fa-bag-shopping"></i>Добавить в корзину </button>
+
+            
+         </div>
+      
+      </section>
+
+      
+      <section class="recomended">
+
+         <div class="rec-text">
+            <h2> Рекомендуем </h2>
+            <app-products-list [productCards] = "recomendedProducts"> </app-products-list>
+         </div>
+
+         
+         
+      </section>
+
+   </section>
+

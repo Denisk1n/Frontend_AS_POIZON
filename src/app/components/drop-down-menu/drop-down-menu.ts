@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output, HostListener, Input } from '@angular/core';
 import { FiltersLogic } from '../../services/filters-logic';
 
-
 interface SortOption {
   value: string;
   label: string;

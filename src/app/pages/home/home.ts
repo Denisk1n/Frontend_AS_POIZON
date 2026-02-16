@@ -14,7 +14,7 @@ import { ProductListLogic } from '../../services/product-list-logic';
 
 export class Home {
 
-  newProductCards : Productcard[] = []
+  newProductCards : Productcard[] = [];
   
   loading = false;
   error = '';

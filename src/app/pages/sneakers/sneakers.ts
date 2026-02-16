@@ -6,6 +6,7 @@ import { DropDownMenu } from '../../components/drop-down-menu/drop-down-menu';
 import { FiltersLogic } from '../../services/filters-logic';
 import { Productcard } from '../../models/product-card.model';
 
+
 @Component({
   selector: 'app-sneakers',
   imports: [Filters, ProductsList, DropDownMenu, CommonModule],

@@ -1,0 +1,179 @@
+
+.page{
+   margin: 3% 16%;
+}
+
+.path{
+   margin-bottom: 4%;
+}
+
+.small-path{
+   margin-top: 2%;
+}
+
+.small-path a{
+   color: #BBBBBB;
+   font-size: 16px;  
+   font-weight: 400;
+   text-decoration: none;
+}
+.small-path{
+   font-weight: 500;
+}
+
+.small-path #small-path-name{
+   text-decoration: underline;
+}
+
+/* Main - фотки и текст справа */
+
+.main{
+   display: flex;
+   justify-content: center;
+   margin: 20px 10px;
+}
+
+.main .pro-imge{
+   width: 60%;
+   margin-right: 50px;
+}
+
+.small-images-group{
+   display: flex;
+   justify-content: space-between;
+}
+
+.rec-text h2{
+   padding-bottom: 20px;
+}
+
+.small-img-box{
+   flex-basis: 24%;
+   cursor: pointer;
+}
+
+.main .pro-details{
+   width: 45%;
+   padding-top: 30px;
+   padding-left: 5%;
+}
+
+.main .pro-details h2{
+   padding-bottom: 30px;
+   margin: 0;
+}
+
+.main .pro-details .info{
+   padding-bottom: 15px;
+   width: 60%;
+}
+
+.main .pro-details .info-line{
+   display: flex;
+}
+
+.main .pro-details .info-line div{
+   padding-right: 15px;
+   padding-bottom: 15px;
+}
+
+.main .pro-details .info-line h6{
+   font-size: 18px;
+   margin: 0;
+}
+
+.main .pro-details h4{
+   margin: 0;
+   margin-bottom: 25px;
+}
+
+.main .pro-details .sizes{
+   display: block;
+   padding: 5px 10px;
+   margin-bottom: 30px;
+   border: 1px solid gray;
+   border-radius: 10px;
+}
+
+.main .pro-details .add-to-cart{
+   padding: 12px 30px;
+   color: white;
+   border: none;
+   background: black;
+   border-radius: 30px;
+   transition: 0.3s;
+   i{
+      padding-right: 10px;
+   }
+}
+
+.main .pro-details .add-to-cart:hover{
+   background: rgb(43, 43, 43);
+}
+
+
+
+
+
+.product_card {
+   width: 20%;
+   min-width: 250px;
+   max-width: 270px;
+   padding: 10px 12px;
+   cursor: pointer;
+   transition: 0.2 ease;
+   position: relative;
+   
+}
+
+.product_card a{
+   color: black;
+}
+
+.product_card:hover{
+   box-shadow: 1px 1px 20px rgba(158, 157, 157, 0.507);
+}
+
+.product_card img{
+   width: 100%;
+   border-radius: 20px;
+}
+
+
+.product_card .card_info{
+   text-align: start;
+   padding-top: 10px;
+}
+
+
+.product_card .card_info #card_name{
+   margin: 0; 
+   line-clamp: 2;
+   -webkit-line-clamp: 2; 
+   display: -webkit-box; 
+   -webkit-box-orient: vertical; 
+   overflow: hidden; 
+   padding-bottom: 5px;
+}
+
+.availability{
+   font-size: 16px;
+   text-decoration: underline;
+   font-weight: 400;
+   color: green;
+}
+.product_card img{
+   width: 100%;
+   border-radius: 20px;
+}
+
+
+.product_card .card_info{
+   text-align: start;
+   padding-top: 10px;
+}
+
+.product_card .card_info h4{
+   padding-top: 5px;
+   font-size: 18px;
+}

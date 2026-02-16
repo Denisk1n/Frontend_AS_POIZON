@@ -42,12 +42,15 @@
 
 #card_price{
    margin: 0;
-   padding-bottom: 3px;
+   padding-bottom: 6px;
    padding-top: 3px;
    font-size: 20px;
    font-weight: 700;
 }
 
 .available{
-   text-decoration: underline;
+   padding: 3px 5px;
+   border-radius: 15px;
+   
 }
+

@@ -9,7 +9,8 @@
          <span id="card_brand"> {{ product.brand }} </span>
          <h5 id="card_title"> {{product.title}}</h5>
          <h4 id="card_price"> {{product.price}} ₽</h4>
-         <span class="available" [ngStyle]="{'color': product.available == 'В наличии' ? 'green' : 'red'}" > {{ product.available}} </span>
+         <span class="available" [ngStyle]="{'color': product.available == 'В наличии' ? '#2E7D32' : '#C62828',
+                                             'background-color': product.available == 'В наличии' ? '#0de01f4c' : '#ea1b3a68'}" > {{ product.available}} </span>
       </div>
    </a>
 </div>

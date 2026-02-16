@@ -30,7 +30,6 @@ export class Sneakers {
     this.loadProductCards();
   }
 
-
   loadProductCards(){
     this.loading = true;
     this.error = '';

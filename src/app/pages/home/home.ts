@@ -23,10 +23,10 @@ export class Home {
     private prodListLog: ProductListLogic,
     private cdr: ChangeDetectorRef
     ){
-        this.loadProduct()
+        this.loadProducts()
     }
 
-  loadProduct(): void {
+  loadProducts(): void {
       this.loading = true;
       this.error = '';
       

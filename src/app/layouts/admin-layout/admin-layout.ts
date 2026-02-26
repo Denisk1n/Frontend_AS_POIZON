@@ -2,14 +2,12 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-admin-layout',
   standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  templateUrl: './admin-layout.html',
+  styleUrl: './admin-layout.css',
 })
+export class AdminLayout {
 
-export class App {
- 
-  
 }

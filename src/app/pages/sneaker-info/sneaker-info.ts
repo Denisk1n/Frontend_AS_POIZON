@@ -7,10 +7,12 @@ import { ProductInfo } from '../../services/product-info';
 import { ImageSlider } from '../../components/image-slider/image-slider';
 import { ProductsList } from '../../components/products-list/products-list';
 import { Productcard } from '../../models/product-card.model';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-sneaker-info',
-  imports: [CommonModule, FormsModule, ImageSlider, ProductsList],
+  imports: [CommonModule, FormsModule, ImageSlider, ProductsList, TagModule],
+  standalone: true,
   templateUrl: './sneaker-info.html',
   styleUrl: './sneaker-info.css',
 })
@@ -38,12 +40,24 @@ export class SneakerInfo {
 
   create_images(): void{
     // console.log(this.product.images.length);
-    this.images.push(this.product.main_image)
+    this.images = [];
+    this.images.push(this.product.main_image);
     if (this.product.images.length > 0){
       for (let i = 0; i < this.product.images.length; i++){
         this.images.push(this.product.images[i].image)
       }
       console.log(this.images);
+    }
+  }
+
+  getSeverity(status: string): 'success' |  'info' |  'danger' | undefined {
+    switch (status) {
+      case 'В наличии':
+        return 'success';
+      case 'Под заказ':
+        return 'danger';
+      default:
+        return 'info';
     }
   }
 

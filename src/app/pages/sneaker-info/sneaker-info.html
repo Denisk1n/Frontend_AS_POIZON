@@ -40,7 +40,7 @@
                   <div>
                      <h6> Наличие: </h6> 
                   </div>
-                  <span class="available" [ngStyle]="{'color': product.available == 'В наличии' ? 'green' : 'red'}" > {{ product.available}} </span>
+                  <p-tag [value]="product.available" [severity]="getSeverity(product.available)"></p-tag>
                </div>
 
             </div>

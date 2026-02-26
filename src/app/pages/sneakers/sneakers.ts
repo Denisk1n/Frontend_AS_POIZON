@@ -10,6 +10,7 @@ import { Productcard } from '../../models/product-card.model';
 @Component({
   selector: 'app-sneakers',
   imports: [Filters, ProductsList, DropDownMenu, CommonModule],
+  standalone: true,
   templateUrl: './sneakers.html',
   styleUrl: './sneakers.css',
 })

@@ -7,6 +7,7 @@ import { ProductListLogic } from '../../services/product-list-logic';
 
 @Component({
   selector: 'app-home',
+  standalone: true,
   imports: [InfoFeatures, ProductsList],
   templateUrl: './home.html',
   styleUrl: './home.css',

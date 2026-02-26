@@ -1,44 +1,146 @@
-   <div class="card">
-            <p-table  [value]="products" [tableStyle]="{ 'min-width': '60rem'}" >
-                <ng-template #caption>
-                    <div class="flex items-center justify-between">
-                        <span class="text-xl font-bold"> Таблица товаров </span>
-                    </div>
-                </ng-template>
+<div class="card">
+      <p-table
+        #dt
+        [value]="products"
+        [scrollable]="true"
+        scrollHeight="570px"
+        [tableStyle]="{'min-width':'60rem'}"
+        dataKey="id"
+      >
+        <ng-template #caption>
+          <div class="flex items-center justify-between">
+            <span class="text-xl font-bold">Таблица товаров</span>
+          </div>
+        </ng-template>
 
-                <ng-template #header>
-                    <tr>
-                        <th style="width: 5%"> ID </th>
-                        <th style="width: 20%">Название </th>
-                        <th>Бренд</th>
-                        <th >Главное фото</th>
-                        <th>Цена</th>
-                        <th>Категория</th>
-                        <th>Статус</th>
-                    </tr>
+        <ng-template #header>
+          <!-- Заголовки колонок -->
+          <tr>
+            <th style="width:5%">ID</th>
+            <th style="width:20%">Название</th>
+            <th style="width:12%">Бренд</th>
+            <th style="width:40%">Главное фото</th>
+            <th style="width:10%">Цена</th>
+            <th style="width:18%">Категория</th>
+            <th style="width:20%">Статус</th>
+          </tr>
+          <!-- Строка фильтров -->
+          <tr>
+            <!-- ID -->
+            <th>
+              <p-columnFilter type="numeric" field="id" [showMenu]="false">
+                <ng-template #filter let-value let-filter="filterCallback">
+                  <input pInputText type="number" [ngModel]="value" (ngModelChange)="filter($event)" class="w-full" placeholder="ID" style="width: 60px;"/>
                 </ng-template>
+              </p-columnFilter>
+            </th>
+            <!-- Название -->
+            <th>
+              <p-columnFilter type="text" field="title" [showMenu]="false">
+                <ng-template #filter let-value let-filter="filterCallback">
+                  <input pInputText [ngModel]="value" (ngModelChange)="filter($event)" class="w-full" placeholder="Название" style="width: 200px; "/>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <!-- Бренд (мультиселект) -->
+            <th>
+              <p-columnFilter field="brand" matchMode="in" [showMenu]="false">
+                <ng-template #filter let-value let-filter="filterCallback">
+                  <p-multiselect
+                    [ngModel]="value"
+                    [options]="brands"
+                    (onChange)="filter($event.value)"
+                    placeholder="Бренд"
+                    optionLabel="label"
+                    optionValue="value"
+                    [maxSelectedLabels]="1"
+                    styleClass="w-full"
+                  />
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <!-- Фото (без фильтра) -->
+            <th> 
+                <div style="width: 120px;"></div>
+            </th>
+            <!-- Цена (диапазон) -->
+            <th>
+              <p-columnFilter field="price" matchMode="between" [showMenu]="false">
+                <ng-template #filter let-value let-filter="filterCallback">
+                  <div class="flex flex-col gap-1">
+                    <input pInputText type="number" placeholder="От" class="w-full" #minPrice (input)="onPriceFilter(minPrice.value, maxPrice.value, filter)" style="width: 140px;"/>
+                    <input pInputText type="number" placeholder="До" class="w-full" #maxPrice (input)="onPriceFilter(minPrice.value, maxPrice.value, filter)" style="width: 140px;"/>
+                  </div>
+                </ng-template>
+              </p-columnFilter>
+            </th>
+            <!-- Категория (селект) -->
+            <th>
+               <div class="filter-item" >
+                    <p-select 
+                    [(ngModel)]="selectedCategory" 
+                    [options]="categories" 
+                    (onChange)="filterByCategory(dt, $event.value)" 
+                    placeholder="Категории" 
+                    [showClear]="true"
+                    optionLabel="label"
+                    class="w-full"
+                    style="width: 150px;"
+                    />
+            </div>
 
-                <ng-template #body let-product>
-                    <tr>
-                        <td > {{ product.id }} </td>
-                        <td> {{ product.title }} </td>
-                        <td>  {{ product.brand }} </td>
-                        <td style="width: 25%">
-                            <img [src]="product.main_image" class="image" />
-                        </td>
-                        <td> {{ product.price }} ₽</td>
-                        <td> {{ product.category }} </td>
-                        <td>
-                            <span class="available" [ngStyle]="{'color': product.available == 'В наличии' ? '#2E7D32' : '#C62828',
-                                             'background-color': product.available == 'В наличии' ? '#0de01f4c' : '#ea1b3a68'}" > {{ product.available}} </span>
-                        </td>
-                    </tr>
-                </ng-template>
+            </th>
+            <!-- Статус (селект) -->
+            <th>
+                <div class="filter-item">
+                    <p-select 
+                    [(ngModel)]="selectedStatus" 
+                    [options]="statuses" 
+                    (onChange)="filterByStatus(dt, $event.value)" 
+                    placeholder="Статусы" 
+                    [showClear]="true"
+                    optionLabel="label"
+                    class="w-full"
+                    style="width: 140px;"
+                    >
+                    <ng-template #item let-option>
+                        <p-tag [value]="option.label" [severity]="getSeverity(option.value)" />
+                    </ng-template>
+                    </p-select>
+                </div>
+            </th>
+          </tr>
+        </ng-template>
 
-                <ng-template #footer>
-                    <tr>
-                        <td colspan="6">Всего - {{ products ? products.length : 0 }} товаров</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-   </div>
+        <ng-template #body let-product>
+          <tr (click)="goToSneakerInfo(product.id)">
+            <td>{{ product.id }}</td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.brand }}</td>
+            <td>
+              <img [src]="product.main_image" style="width:100px; height:70px; object-fit:cover; border-radius:4px;" [alt]="product.title" onerror="this.src='assets/placeholder.jpg'"/>
+            </td>
+            <td>{{ product.price | number }} ₽</td>
+            <td>{{ product.category }}</td>
+            <td>
+              <p-tag [value]="product.available" [severity]="getSeverity(product.available)" />
+            </td>
+          </tr>
+        </ng-template>
+
+        <ng-template #emptymessage>
+          <tr><td colspan="7" class="text-center p-4">Товары не найдены</td></tr>
+        </ng-template>
+
+        <ng-template #footer>
+          <tr>
+            <td colspan="7" class="text-right font-bold">
+              Всего товаров:  {{ products ? products.length : 0 }}
+              <span *ngIf="dt.filteredValue" class="ml-2 text-gray-500">
+                (отфильтровано: {{ dt.filteredValue.length }})
+              </span>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>

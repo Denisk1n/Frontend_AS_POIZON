@@ -1,0 +1,23 @@
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    padding: 10px 40px;
+    border-radius: 8px;
+    margin: 10px 40px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+}
+
+
+.btn-add {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}

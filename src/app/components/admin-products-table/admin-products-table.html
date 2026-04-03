@@ -1,5 +1,6 @@
-<div class="card">
-      <p-table
+<div class="product-form-card">
+      
+  <p-table
         #dt
         [value]="products"
         [scrollable]="true"
@@ -15,17 +16,18 @@
 
         <ng-template #header>
           <!-- Заголовки колонок -->
-          <tr>
-            <th style="width:5%">ID</th>
+          <tr class="h-4rem">
+            <th style="width:15%">ID</th>
             <th style="width:20%">Название</th>
             <th style="width:12%">Бренд</th>
-            <th style="width:40%">Главное фото</th>
-            <th style="width:10%">Цена</th>
+            <th style="width:22%">Главное фото</th>
+            <th style="width:22%">Цена</th>
             <th style="width:18%">Категория</th>
-            <th style="width:20%">Статус</th>
+            <th style="width:10%">Статус</th>
           </tr>
+
           <!-- Строка фильтров -->
-          <tr>
+          <tr class="h-4rem"> 
             <!-- ID -->
             <th>
               <p-columnFilter type="numeric" field="id" [showMenu]="false">
@@ -34,6 +36,7 @@
                 </ng-template>
               </p-columnFilter>
             </th>
+
             <!-- Название -->
             <th>
               <p-columnFilter type="text" field="title" [showMenu]="false">
@@ -42,6 +45,7 @@
                 </ng-template>
               </p-columnFilter>
             </th>
+
             <!-- Бренд (мультиселект) -->
             <th>
               <p-columnFilter field="brand" matchMode="in" [showMenu]="false">
@@ -59,10 +63,12 @@
                 </ng-template>
               </p-columnFilter>
             </th>
+
             <!-- Фото (без фильтра) -->
             <th> 
                 <div style="width: 120px;"></div>
             </th>
+
             <!-- Цена (диапазон) -->
             <th>
               <p-columnFilter field="price" matchMode="between" [showMenu]="false">
@@ -74,6 +80,7 @@
                 </ng-template>
               </p-columnFilter>
             </th>
+
             <!-- Категория (селект) -->
             <th>
                <div class="filter-item" >
@@ -87,9 +94,9 @@
                     class="w-full"
                     style="width: 150px;"
                     />
-            </div>
-
+              </div>
             </th>
+
             <!-- Статус (селект) -->
             <th>
                 <div class="filter-item">
@@ -109,15 +116,16 @@
                     </p-select>
                 </div>
             </th>
+
           </tr>
         </ng-template>
 
         <ng-template #body let-product>
-          <tr (click)="goToSneakerInfo(product.id)">
-            <td>{{ product.id }}</td>
+          <tr (click)="goToSneakerInfo(product.id)" >
+            <td >{{ product.id }}</td>
             <td>{{ product.title }}</td>
             <td>{{ product.brand }}</td>
-            <td>
+            <td >
               <img [src]="product.main_image" style="width:100px; height:70px; object-fit:cover; border-radius:4px;" [alt]="product.title" onerror="this.src='assets/placeholder.jpg'"/>
             </td>
             <td>{{ product.price | number }} ₽</td>
@@ -134,7 +142,7 @@
 
         <ng-template #footer>
           <tr>
-            <td colspan="7" class="text-right font-bold">
+            <td colspan="7" class="text-left font-bold">
               Всего товаров:  {{ products ? products.length : 0 }}
               <span *ngIf="dt.filteredValue" class="ml-2 text-gray-500">
                 (отфильтровано: {{ dt.filteredValue.length }})

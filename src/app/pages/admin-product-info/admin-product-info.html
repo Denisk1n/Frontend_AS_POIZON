@@ -1,1 +1,181 @@
-<p>admin-product-info works!</p>
+<div class=" flex flex-row-reverse flex-wrap w-full " style="padding: 10px 30px;">
+  
+    <div class="product-form-card">
+      
+      <div style="flex: 1; max-height: calc(100vh - 200px)" class="overflow-y-auto overflow-x-hidden">   
+          <form #productForm="ngForm" (ngSubmit)="saveProduct()">
+
+            <!-- Строка 1: Название и Бренд -->
+            <div class="form-row" >
+              <div class="form-group">
+                <label>Название товара <span class="required">*</span></label>
+                <input 
+                  pInputText 
+                  [(ngModel)]="product.title" 
+                  name="name"
+                  #name="ngModel"
+                  required
+                  placeholder="Введите название товара"
+
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Бренд</label>
+                <input 
+                  pInputText 
+                  [(ngModel)]="product.brand" 
+                  name="brand"
+                  placeholder="Введите бренд"
+                />
+              </div>
+            </div>
+
+            <!-- Строка 2: Категория и Цена -->
+            <div class="form-row">
+              <div class="form-group">
+                <label>Категория</label>
+                <p-select
+                  [(ngModel)]="product.category"
+                  [options]="categories"
+                  name="category"
+                  placeholder="Категория товара"
+ 
+                  [showClear]="true"
+                />
+              </div>
+
+              <div class="form-group">
+                <label>Цена</label>
+                <p-inputNumber
+                  [(ngModel)]="product.price"
+                  name="price"
+                  mode="currency"
+                  currency="RUB"
+                  locale="ru-RU"
+                  [minFractionDigits]="0"
+                  [maxFractionDigits]="0"
+                  placeholder="Введите цену"
+                />
+              </div>
+            </div>
+
+            <!-- Строка 3: Описание  -->
+            <div class="form-row">
+              <div class="form-group ">
+                <label>Описание</label>
+                <textarea
+                  style="min-height: 90px;"
+                  class="p-2"
+                  pInputTextarea
+                  [(ngModel)]="product.description"
+                  name="description"
+                  rows="4"
+                  placeholder="Введите описание товара"
+                ></textarea>
+              </div>
+
+              <!-- Строка 4: Наличие -->
+              <div class="form-group">
+                <label>Статус</label>
+                <div class="status-toggle">
+                  <p-toggleButton
+                    [(ngModel)]="isActive"
+                    name="isActive"
+                    onLabel="В наличии"
+                    offLabel="Под заказ"
+                    onIcon="pi-check"
+                    offIcon="pi pi-times"
+                    [style.borderColor]="isActive ? '#10b981' : '#ef4444'"
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Строка 4: Загрузка изображений (на всю ширину) -->
+            <div class="form-row full-width">
+              <div class="form-group">
+                <label>Изображения товара</label>
+                <div class="upload-area">
+                  <p-fileUpload
+                    name="images[]"
+                    url="https://your-api.com/upload"
+                    (onUpload)="onUpload($event)"
+                    [multiple]="true"
+                    accept="image/*"
+                    maxFileSize="5000000"
+                    [auto]="false"
+                    chooseLabel="Выбрать файлы"
+                    uploadLabel="Загрузить"
+                    cancelLabel="Отмена"
+                    invalidFileSizeMessage="Размер файла не должен превышать 5MB"
+                  >
+                    <ng-template pTemplate="content">
+                      <div *ngIf="uploadedFiles.length" class="uploaded-files">
+                        <div *ngFor="let file of uploadedFiles" class="file-item">
+                          <i class="pi pi-image"></i>
+                          <span>{{ file.name }}</span>
+                          <span class="file-size">{{ (file.size / 1024).toFixed(0) }} KB</span>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-fileUpload>
+                </div>
+              </div>
+            </div>
+
+            <!-- Строка 5: Размеры -->
+            <div class="form-group">
+              <label>Размеры</label>
+                <div class="accordion-content" >
+                    <!-- Чекбоксы с размерами -->
+                      <div class="w-full">
+                        <label *ngFor="let size of allSizes" >
+                          
+                            <div class="size-option flex flex-row align-items-center justify-content-around w-3rem mr-4 mb-2 " > 
+
+                                <input type="checkbox" 
+                                  [value]="size"
+                                  [checked]="sizes.includes(size)"
+                                  (change)="toggleSize(size, $event)"
+                                  >
+                                <span class="size-checkbox"></span>
+                                <span class="size-label ">{{ size }}</span>
+
+                            </div>
+
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            
+
+          </form>
+      </div>
+
+    </div>
+
+    <!-- Кнопки действий -->
+    <div class="mt-2 p-3 product-form-card">
+      <button 
+        pButton 
+        type="submit" 
+        label="Сохранить" 
+        icon="pi pi-save"
+        [disabled]="productForm.invalid"
+        class="p-button-success mr-3"
+        (click)="print()"
+      ></button>
+      
+      <button 
+        pButton 
+        type="button" 
+        label="Отмена" 
+        icon="pi pi-times"
+        class="p-button-secondary"
+      ></button>
+    </div>
+</div>

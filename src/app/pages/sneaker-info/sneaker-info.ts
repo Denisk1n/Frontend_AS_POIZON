@@ -23,6 +23,7 @@ export class SneakerInfo {
     title: '',
     brand: '',
     category: '',
+    description: '',
     price: 0,
     main_image: '',
     available: '',

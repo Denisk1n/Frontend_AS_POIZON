@@ -25,6 +25,7 @@
               }
             ],
             "styles": [
+              "primeflex/primeflex.min.css",
               "src/styles.css"
             ]
           },

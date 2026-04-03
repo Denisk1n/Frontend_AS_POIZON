@@ -2,6 +2,7 @@ export interface ProductInfoModel{
    title: string;
    brand: string;
    category: string;
+   description: string;
    price: number;
    main_image: string;
    available: string;

@@ -65,11 +65,12 @@
 
 .main .pro-details .info{
    padding-bottom: 15px;
-   width: 60%;
+
 }
 
 .main .pro-details .info-line{
    display: flex;
+   align-items: center;
 }
 
 .main .pro-details .info-line div{

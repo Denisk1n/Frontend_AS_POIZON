@@ -2,8 +2,7 @@ export interface StaticData{
    
    brands: AllBrands[];
    sneakerSizes: AllSneakerSizes[];
-   clotheSizes: string[];
-   
+   // clotheSizes: string[];
 
 }
 

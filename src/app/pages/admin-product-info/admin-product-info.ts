@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -14,7 +15,9 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ProductInfoModel } from '../../models/product-info.model';
 
+import { AdminProductInfoLogic } from '../../services/admin-product-info-logic';
 import { ProductSizes } from '../../models/product-info.model';
+import { StaticData } from '../../models/static-data.model';
 
 @Component({
   selector: 'app-admin-product-info',
@@ -50,9 +53,50 @@ export class AdminProductInfo {
     sizes: []
   };
 
+  staticData: StaticData = {
+    sneakerSizes: [],
+    brands: []
+  }
+
+  loading = false;
+  error = '';
+
+  constructor(
+    private route: ActivatedRoute, 
+    private staticDataSetvice: AdminProductInfoLogic, 
+    private cdr: ChangeDetectorRef
+    ){
+      this.loadStaticData();
+    }
+
+  loadStaticData(): void{
+    this.loading = true;
+    this.error = '';
+
+    this.staticDataSetvice.get_static_data()
+      .subscribe({
+        next: (data: StaticData) => {
+          this.staticData = data;
+          this.loading = false;
+
+          this.cdr.detectChanges(); 
+        },
+        error: (err) => {
+          this.error = 'Ошибка загрузки данных';
+          this.loading = false;
+          console.error('Ошибка:', err);
+          this.cdr.detectChanges();
+        }
+      });
+
+    this.loading = false;
+    this.error = '';
+  }
+
+
   allSizes = [
     27, 28, 29, 30, 31, 32, 32.5,
-    33, 34, 34.5, 35, 36, 37, 38,45,46,56,57,57,5,767
+    33, 34, 34.5, 35, 36, 37, 38,45,46,56,57,5,767
   ];
 
   sizes = [34, 36]
@@ -70,11 +114,12 @@ export class AdminProductInfo {
     
     console.log('Выбранные размеры:', this.sizes);
   }
-       
-    remove_from_array(list: any[], value: any): void{
-    const index = list.indexOf(value);
-    if (index > -1){
-      list.splice(index, 1);
+    
+  
+  remove_from_array(list: any[], value: any): void{
+  const index = list.indexOf(value);
+  if (index > -1){
+    list.splice(index, 1);
     }
   }
 
@@ -99,6 +144,7 @@ export class AdminProductInfo {
     
   }
 
+  
 
 
   print(){

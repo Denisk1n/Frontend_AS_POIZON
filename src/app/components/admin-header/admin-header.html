@@ -1,4 +1,4 @@
 <header class="header">
       <h2 class="font-semibold"> {{header_text}} </h2>
-      <button class="btn-add" *ngIf="showAddButton" >+ Добавить товар </button>
+      <button class="btn-add" *ngIf="showAddButton" (click)="goToCreateProduct()" >+ Добавить товар </button>
 </header> 

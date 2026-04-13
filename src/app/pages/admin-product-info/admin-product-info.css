@@ -60,7 +60,6 @@
 
     /* Upload area */
     .upload-area {
-      background: #f7fafc;
       border: 2px dashed #e2e8f0;
       border-radius: 10px;
       transition: all 0.3s;
@@ -229,4 +228,9 @@
   cursor: pointer;
   height: 0;
   width: 0;
+}
+
+
+::ng-deep .p-fileupload .p-fileupload-content {
+    display: none;
 }

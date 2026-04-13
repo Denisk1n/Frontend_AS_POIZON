@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { StaticData } from '../models/static-data.model';
+import { ProductInfoModel } from '../models/product-info.model';
+import { ProductCreateModel } from '../models/product-info.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +14,13 @@ export class AdminProductInfoLogic {
 
   constructor(private http: HttpClient){}
 
-  get_static_data():Observable<StaticData>{
-    return this.http.get<StaticData>(`${this.APIURL}/static-data`)
+  get_product_info(sneaker_id: number): Observable<ProductInfoModel>{
+      // console.log('ссылка', `${this.APIURL}sneakers/${sneaker_id}`)
+    return this.http.get<ProductInfoModel>(`${this.APIURL}/sneakers/${sneaker_id}`)   
   }
+
+  // post_create_product(new_product: ProductInfoModel): Observable<ProductCreateModel>{
+  //   return this.http.post<ProductCreateModel>(`${this.APIURL}/`)
+  // }
 
 }

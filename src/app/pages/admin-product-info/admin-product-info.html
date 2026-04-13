@@ -22,11 +22,16 @@
 
               <div class="form-group">
                 <label>Бренд</label>
-                <input 
-                  pInputText 
-                  [(ngModel)]="product.brand" 
+                <p-select
+                  [(ngModel)]="product.brand"
+                  [options]="staticData.brands"
+                  optionLabel="brand"
+                  optionValue="brand"
                   name="brand"
-                  placeholder="Введите бренд"
+                  filterBy="brand"
+                  [filter]="true"
+                  placeholder="Бренды"
+                  [showClear]="true"
                 />
               </div>
             </div>
@@ -40,7 +45,6 @@
                   [options]="categories"
                   name="category"
                   placeholder="Категория товара"
- 
                   [showClear]="true"
                 />
               </div>
@@ -86,6 +90,7 @@
                     offLabel="Под заказ"
                     onIcon="pi-check"
                     offIcon="pi pi-times"
+                    (click)="setAvailable()"
                     [style.borderColor]="isActive ? '#10b981' : '#ef4444'"
                   />
                 </div>
@@ -93,37 +98,89 @@
 
             </div>
 
+
+
             <!-- Строка 4: Загрузка изображений (на всю ширину) -->
             <div class="form-row full-width">
               <div class="form-group">
                 <label>Изображения товара</label>
-                <div class="upload-area">
-                  <p-fileUpload
-                    name="images[]"
-                    url="https://your-api.com/upload"
-                    (onUpload)="onUpload($event)"
-                    [multiple]="true"
-                    accept="image/*"
-                    maxFileSize="5000000"
-                    [auto]="false"
-                    chooseLabel="Выбрать файлы"
-                    uploadLabel="Загрузить"
-                    cancelLabel="Отмена"
-                    invalidFileSizeMessage="Размер файла не должен превышать 5MB"
-                  >
-                    <ng-template pTemplate="content">
-                      <div *ngIf="uploadedFiles.length" class="uploaded-files">
-                        <div *ngFor="let file of uploadedFiles" class="file-item">
-                          <i class="pi pi-image"></i>
-                          <span>{{ file.name }}</span>
-                          <span class="file-size">{{ (file.size / 1024).toFixed(0) }} KB</span>
-                        </div>
+
+                <div class="upload-area " >
+                  
+
+                  <!-- ГЛАВНОЕ ФОТО -->
+                  <div class=" grid ">
+                    <label class="col-12 pl-3 pt-3">Главное фото (отображается на карточке товара)</label>
+                    
+                    <!-- Текущее главное фото (из БД) -->
+                    <div *ngIf="(product.main_image.length > 1) && !newMainImageFile" class="current-image" class="col-6 pl-6 pb-4 flex align-items-center">
+                      <img [src]="product.main_image" alt="Текущее главное фото" class="w-7" />
+                      <p-button (click)="removeCurrentMainImage()" label="Удалить" severity="danger" class="pl-4"/> 
+                    </div>
+                    
+                    <!-- Превью нового главного фото -->
+                    <div *ngIf="newMainImagePreview" class="new-image col-6 flex align-items-center">
+                      <img [src]="newMainImagePreview" alt="Новое главное фото" class="w-7"/>
+                      <p-button (click)="cancelNewMainImage()" label="Отменить" severity="danger" class="pl-4"/> 
+                    </div>
+                    
+                    <!-- Загрузка нового главного фото -->
+                    <p-fileUpload
+                      *ngIf="!newMainImageFile"
+                      name="new_main_image"
+                      [multiple]="false"
+                      accept="image/jpeg, .jpg, .jpeg"
+                      chooseLabel="Заменить главное фото"
+                      (onSelect)="onMainImageSelect($event)"
+                      [showUploadButton]="false"
+                      [showCancelButton]="false"
+                      class="col-6 w-4 flex align-items-center"
+                    />
+                  </div>
+                  <hr class="m-0">
+
+
+                  <!-- ГАЛЕРЕЯ ФОТО -->
+                  <div class="form-group">
+                    <label class="pl-2 pt-2 pb-2">Дополнительные фото товара</label>
+                    
+                    <!-- Список текущих фото из БД -->
+                    <div class="flex flex-row align-items-center justify-content-start pl-2" *ngIf="product.images.length > 0">
+                      <div *ngFor="let img of product.images; let i = index" class="pr-4 flex flex-column align-items-center" >
+                        <img *ngIf="!img.delete" [src]="img.image"  class=" w-12rem"/>
+                        <p-button *ngIf="!img.delete" type="button" (click)="markImageForDeletion(i)" severity="danger" label="Удалить" />
                       </div>
-                    </ng-template>
-                  </p-fileUpload>
+                    </div>
+                    
+
+                    <!-- Новые добавляемые фото -->
+                    <label class="pl-2 pt-4 pb-0"> Новые фотографии для загрузки </label>
+                    <div class="flex flex-row align-items-center justify-content-start" *ngIf="newGalleryFiles.length">
+                      <div *ngFor="let img of newGalleryPreviews; let i = index" class="pr-4 flex flex-column align-items-center">
+                        <img [src]="img" alt="Новое фото" class="w-12rem" />
+                        <p-button (click)="removeNewGalleryImage(i)" label="Удалить" severity="danger" />
+                      </div>
+                    </div>
+                    
+                    <!-- Загрузка новых фото -->
+                    <p-fileUpload
+                      name="new_gallery_images"
+                      [multiple]="true"
+                      accept="image/jpeg, image/jpg, .jpg, .jpeg"
+                      chooseLabel="Добавить фото"
+                      [showUploadButton]="false"
+                      [showCancelButton]="false"
+                      (onSelect)="onGalleryImagesSelect($event)"
+                      class="pt-2"
+                    />
+                  </div>
+
+
                 </div>
               </div>
             </div>
+
+
 
             <!-- Строка 5: Размеры -->
             <div class="form-group">
@@ -131,17 +188,17 @@
                 <div class="accordion-content" >
                     <!-- Чекбоксы с размерами -->
                       <div class="w-full">
-                        <label *ngFor="let size of allSizes" >
-                          
-                            <div class="size-option flex flex-row align-items-center justify-content-around w-3rem mr-4 mb-2 " > 
+                        <label *ngFor="let size of staticData.sneakerSizes">
+
+                            <div class="size-option flex flex-row align-items-center justify-content-around w-3rem mr-4 mb-2 " title="RU: {{ size.ru }}, US: {{ size.us }}, SM: {{ size.sm }}"> 
 
                                 <input type="checkbox" 
-                                  [value]="size"
-                                  [checked]="sizes.includes(size)"
+                                  [value]="size.ru"
+                                  [checked]="isSizeSelected(size)"
                                   (change)="toggleSize(size, $event)"
                                   >
                                 <span class="size-checkbox"></span>
-                                <span class="size-label ">{{ size }}</span>
+                                <span class="size-label ">{{ size.ru }} </span>
 
                             </div>
 

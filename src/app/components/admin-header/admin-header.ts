@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef  } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { CommonModule } from '@angular/common';
@@ -11,45 +11,60 @@ import { Subscription } from 'rxjs';
   styleUrl: './admin-header.css',
 })
 
-export class AdminHeader implements OnInit, OnDestroy {
+export class AdminHeader {
+
   showAddButton: Boolean = true;
   header_text: string = 'Товары';
+  
   private routerSubscription!: Subscription;
 
-  constructor(private router: Router) {
-
-  }
+  constructor(
+    private router: Router, 
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(){
     this.routerSubscription = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
+      .subscribe((event: NavigationEnd) => {
         this.updateUI(); // Вызывается при КАЖДОМ переходе
       });
+
+    this.updateUI();
   }
 
 
-  private updateUI() {
+  updateUI() {
     const currentUrl = this.router.url;
-    console.log(currentUrl);
+    //console.log(currentUrl);
 
-    if (currentUrl.includes('admin/main-table')) {
+    if (currentUrl.includes('/main-table')) {
       this.showAddButton = true;
       this.header_text = "Товары";
-    } else {
+    }; 
+    if (currentUrl.includes('/product-info/create')){
+      this.showAddButton = false;
+      this.header_text = "Создание товара";
+    };
+    if (currentUrl.includes('/product-info/edit')){
       this.showAddButton = false;
       this.header_text = "Редактирование товара";
     }
+    if (currentUrl.includes('/settings')){
+      this.showAddButton = false;
+      this.header_text = "Настройки";
+    }
 
-    console
   }
 
 
-  ngOnDestroy() {
-    // Отписываемся при уничтожении компонента
-    if (this.routerSubscription) {
-      this.routerSubscription.unsubscribe();
-    }
+
+  goToCreateProduct(){
+    this.router.navigate(['admin/product-info', 'create'], {
+      queryParams: {},
+      queryParamsHandling: ''
+    });
+    this.cdr.detectChanges();
   }
 
 

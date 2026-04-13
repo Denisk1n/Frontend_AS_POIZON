@@ -15,9 +15,12 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ProductInfoModel } from '../../models/product-info.model';
 
+import { ProductInfo } from '../../services/product-info';
 import { AdminProductInfoLogic } from '../../services/admin-product-info-logic';
 import { ProductSizes } from '../../models/product-info.model';
 import { StaticData } from '../../models/static-data.model';
+import { StaticDataService} from '../../services/static-data';
+
 
 @Component({
   selector: 'app-admin-product-info',
@@ -41,6 +44,105 @@ import { StaticData } from '../../models/static-data.model';
 
 export class AdminProductInfo {
 
+  loading = false;
+  error = '';
+  
+  // Главное фото
+  newMainImageFile: File | null = null;
+  newMainImagePreview: string | null = null;
+  mainImageChanged: boolean = false;
+  mainImageDeleted: boolean = false;
+  
+  // Галерея
+  newGalleryFiles: File[] = [];
+  newGalleryPreviews: string[] = [];
+
+
+  onMainImageSelect(event: any) {
+    this.newMainImageFile = event.files[0];
+    this.mainImageChanged = true;
+    
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.newMainImagePreview = e.target.result;
+      this.cdr.detectChanges();
+      //console.log("Ссылка на фото", this.newMainImagePreview);      
+    };
+    
+    if (this.newMainImageFile){
+      reader.readAsDataURL(this.newMainImageFile);
+    }
+  }
+
+  removeCurrentMainImage() {
+    this.product.main_image = '';
+    this.mainImageDeleted = true;
+    this.mainImageChanged = true;
+  }
+
+  cancelNewMainImage() {
+    this.newMainImageFile = null;
+    this.newMainImagePreview = null;
+    this.mainImageChanged = false;
+  }
+
+  onGalleryImagesSelect(event: any) {
+    const files = [...event.files];
+
+    console.log("Выбрано файлов:", files.length);
+    console.log("Файлы:", files);
+
+    this.newGalleryFiles.push(...files);
+
+    files.forEach((file: File) => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.newGalleryPreviews.push(e.target.result);
+        this.cdr.detectChanges();
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  markImageForDeletion(index: number) {
+    this.product.images[index].delete = true;
+  }
+  
+  removeNewGalleryImage(index: number) {
+    this.newGalleryFiles.splice(index, 1);
+    this.newGalleryPreviews.splice(index, 1);
+
+    console.log(this.newGalleryFiles);
+  }
+
+  
+  loadProduct(): void {
+    this.loading = true;
+    this.error = '';
+    
+    this.productService.get_product_info(1)
+      .subscribe({
+        next: (data: ProductInfoModel) => {
+          this.product = data; // Присваиваем данные из запроса
+          this.loading = false;
+          // Проверка данных
+          console.log('Полученные данные:', this.product);
+          this.setIsActive();
+          this.cdr.detectChanges(); // важная тема для обновления данных
+        },
+        error: (err) => {
+          this.error = 'Ошибка загрузки данных';
+          this.loading = false;
+          console.error('Ошибка:', err);
+          this.cdr.detectChanges();
+        }
+      });
+
+      this.loading = false;
+      this.error = '';
+  }
+
+
   product: ProductInfoModel = {
     title: '',
     brand: '',
@@ -58,80 +160,77 @@ export class AdminProductInfo {
     brands: []
   }
 
-  loading = false;
-  error = '';
 
   constructor(
     private route: ActivatedRoute, 
     private staticDataSetvice: AdminProductInfoLogic, 
-    private cdr: ChangeDetectorRef
-    ){
-      this.loadStaticData();
-    }
+    private cdr: ChangeDetectorRef,
+    private productService: ProductInfo,
+    private staticDataService: StaticDataService
+  ){
+  }
+  
 
-  loadStaticData(): void{
-    this.loading = true;
-    this.error = '';
 
-    this.staticDataSetvice.get_static_data()
-      .subscribe({
-        next: (data: StaticData) => {
-          this.staticData = data;
-          this.loading = false;
-
-          this.cdr.detectChanges(); 
-        },
-        error: (err) => {
-          this.error = 'Ошибка загрузки данных';
-          this.loading = false;
-          console.error('Ошибка:', err);
-          this.cdr.detectChanges();
-        }
-      });
-
-    this.loading = false;
-    this.error = '';
+  async ngOnInit() {
+    // Получаем данные из кэша (без повторной загрузки)
+    await this.staticDataService.loadStaticData();
+    this.staticData = this.staticDataService.getStaticData();
+    this.loadProduct();
+    this.setIsActive();
   }
 
 
-  allSizes = [
-    27, 28, 29, 30, 31, 32, 32.5,
-    33, 34, 34.5, 35, 36, 37, 38,45,46,56,57,5,767
-  ];
-
-  sizes = [34, 36]
-
-
-
-  toggleSize(size: number, event: Event) {
+  toggleSize(size: any, event: Event) {
     const checkbox = event.target as HTMLInputElement;
     
     if (checkbox.checked) {
-      this.sizes.push(size);
+      this.product.sizes.push(size);
     } else {
-      this.removeSize(size);
+      this.removeSneakerSize(size);
     }
     
-    console.log('Выбранные размеры:', this.sizes);
+    //console.log('Выбранные размеры:', this.product.sizes);
   }
     
   
-  remove_from_array(list: any[], value: any): void{
-  const index = list.indexOf(value);
-  if (index > -1){
-    list.splice(index, 1);
+  removeSneakerSize(sneakerSize: any): void {
+    const index = this.product.sizes.findIndex(
+        size => size.ru === sneakerSize.ru && 
+                size.us === sneakerSize.us && 
+                size.sm === sneakerSize.sm
+    );
+    if (index > -1) {
+        this.product.sizes.splice(index, 1);
     }
   }
 
-  removeSize(size: number): void{
-    this.remove_from_array(this.sizes, size);
+  isSizeSelected(sneakerSize: any): boolean {
+    return this.product.sizes.some(
+        size => size.ru === sneakerSize.ru && 
+                size.us === sneakerSize.us && 
+                size.sm === sneakerSize.sm
+    );
   }
 
-  categories = ['Кроссовки' , 'Одежда' ,'Аксессуары' ];
+
+  categories = ['Кроссовки' , 'Одежда' ,'Аксессуары'];
 
   isActive: boolean = this.product.available == "В наличии" ? true : false;
   uploadedFiles: any[] = [];
 
+
+  setAvailable(): void {
+    this.product.available = this.isActive == true ? "В наличии" : "Под заказ";
+    console.log("Статус: ", this.product.available);
+  }
+
+  setIsActive(): void {
+    //console.log(this.product.available);
+    this.isActive = this.product.available == "В наличии" ? true : false;
+    
+    //console.log( this.isActive);
+  }
 
   onUpload(event: any) {
     this.uploadedFiles = event.files;

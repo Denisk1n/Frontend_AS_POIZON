@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -13,13 +13,15 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { ProductInfoModel } from '../../models/product-info.model';
+import { ProductImages, ProductInfoModel } from '../../models/product-info.model';
+
 
 import { ProductInfo } from '../../services/product-info';
 import { AdminProductInfoLogic } from '../../services/admin-product-info-logic';
 import { ProductSizes } from '../../models/product-info.model';
 import { StaticData } from '../../models/static-data.model';
 import { StaticDataService} from '../../services/static-data';
+import { AdminImagesWidget } from '../../components/admin-images-widget/admin-images-widget';
 
 
 @Component({
@@ -36,7 +38,9 @@ import { StaticDataService} from '../../services/static-data';
     DividerModule,
     CheckboxModule,
     ToggleButtonModule,
-    ToastModule],
+    ToastModule,
+    AdminImagesWidget
+  ],
   templateUrl: './admin-product-info.html',
   styleUrl: './admin-product-info.css',
 })
@@ -116,6 +120,9 @@ export class AdminProductInfo {
   }
 
   
+  oldChangedImages = signal<ProductImages[]>([]);
+
+
   loadProduct(): void {
     this.loading = true;
     this.error = '';
@@ -128,6 +135,9 @@ export class AdminProductInfo {
           // Проверка данных
           console.log('Полученные данные:', this.product);
           this.setIsActive();
+
+          this.oldChangedImages.set(this.product.images);
+
           this.cdr.detectChanges(); // важная тема для обновления данных
         },
         error: (err) => {

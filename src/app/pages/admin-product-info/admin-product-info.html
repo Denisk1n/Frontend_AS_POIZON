@@ -208,6 +208,15 @@
 
             </div>
 
+            <div class="pt-4rem pl-5rem">
+
+                <app-admin-images-widget  [imagesData]="oldChangedImages()" 
+                                          (changeImagesData)="oldChangedImages.set($event)">> 
+                </app-admin-images-widget>
+
+
+            </div>
+
             
 
           </form>
